@@ -1,3 +1,20 @@
+1. Inscription Web Application
+2. LUMS Students
+3. Enrollment Process
+4. Clash Resolver
+5. Course Selection
+6. Degree Planning
+7. Course Exchange
+8. OpenAI-Powered Chatbot
+9. Virtual Academic Advisor
+10. Timely Graduation
+11. Minor Declaration
+12. Academic Planning
+13. User-Friendly Interface
+14. Academic Journey.
+
+The Inscription web application is designed to streamline the enrollment process for students at LUMS. The application incorporates several key features to assist students in course selection and degree planning. The primary feature is a clash resolver, which generates feasible weekly schedules based on a student's intended course load, ensuring no class overlaps. The platform also facilitates course exchange and offers tailored solutions for degree planning. A unique aspect of the application is the integration of an OpenAI-powered chatbot. This chatbot serves as a virtual academic advisor, providing guidance on course selection for the current semester, ensuring timely graduation, and advising on course selection for minor declaration. The Inscription web application aims to simplify the academic planning process, providing a user-friendly interface for students to navigate their academic journey at LUMS.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
