@@ -12,7 +12,8 @@ import CourseBox from "@/components/Playground/Course";
 import { Course } from "@/types";
 import { IconCpu, IconPaperclip, IconPlus } from "@tabler/icons-react";
 import { calculateClashFreeWeeks } from "@/lib/clash-resolver";
-import CourseLibrary from "@/components/Playground/CourseLibrary";
+import { useDidUpdate, useLocalStorage } from '@mantine/hooks';
+import { useEffect } from 'react';
 
 
 const reorder = (list: any[], startIndex: number, endIndex: number) => {
@@ -45,6 +46,19 @@ export default function Playground() {
   const theme = useMantineTheme()
   const { buckets, currentActiveBucket, setPlayground } = usePlaygroundBuckets()
   const { setClashFreeWeeks } = useClashFreeWeeks()
+  // const [local, setLocal] = useLocalStorage<Course[][] | null>({ key: "buckets", defaultValue: null })
+
+  // console.log("local", local)
+
+  // useEffect(() => {
+  //   if(local !== null) {
+  //     setPlayground(p => ({ ...p, buckets: local }))
+  //   }
+  // }, [])
+
+  // useDidUpdate(() => {
+  //   setLocal(buckets)
+  // }, [buckets])
 
   const handleAdd = (index: number) => {
     setPlayground(p => ({ ...p, currentActiveBucket: index }))

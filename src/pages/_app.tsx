@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import { AppProps } from 'next/app';
+import { Analytics } from '@vercel/analytics/react';
 import { Flex, MantineProvider } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { rtlCache } from '@/lib/rtl-cache';
@@ -7,6 +8,7 @@ import { Navbar } from '@/components';
 import { RecoilRoot } from 'recoil';
 import { SessionProvider } from "next-auth/react"
 import { Notifications } from '@mantine/notifications';
+
 
 export default function App(props: AppProps) {
   const { Component, pageProps: pg } = props;
@@ -40,6 +42,7 @@ export default function App(props: AppProps) {
           </RecoilRoot>
         </ModalsProvider>
       </MantineProvider>
+      <Analytics />
     </div>
   );
 }
