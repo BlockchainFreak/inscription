@@ -55,7 +55,13 @@ const isWeekClashing = (week: WeekSchedule) => {
 }
 
 const accumulateByBacktracking = (bucketIdx: number, buckets: Course[][], currentCourseStack: Course[], clashFreeWeeks: Course[][]) => {
-    if (bucketIdx >= buckets.length || buckets[bucketIdx].length === 0) {
+    
+    if(buckets[bucketIdx] && buckets[bucketIdx].length === 0) {
+        accumulateByBacktracking(bucketIdx + 1, buckets, currentCourseStack, clashFreeWeeks)
+        return
+    }
+    
+    if (bucketIdx >= buckets.length) {
         const currentWeek = createWeek(currentCourseStack)
         const isClashing = isWeekClashing(currentWeek)
         if (isClashing === false) {

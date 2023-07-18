@@ -21,7 +21,7 @@ type params = {
 export const sendVerificationCode = ({ email, code, username }: params) => {
     return new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
         const mailOptions = {
-            from: 'verify.inscription@hotmail.com',
+            from: process.env.PROVIDER_EMAIL ?? "",
             to: email,
             subject: `your verification code for Inscription App is: ${code}`,
             html: htmlString.replace('{{username}}', username).replace('{{code}}', code),// plain text body

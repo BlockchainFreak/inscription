@@ -10,16 +10,21 @@ export default async function handler(
 
     const email = req.query.email as string;
 
-    const users = await db.select({
-        campusId: UserTable.campusId,
-        email: UserTable.email,
-        name: UserTable.name,
-        nickname: UserTable.nickname,
-        credits: UserTable.credits,
-    }).from(UserTable).where(eq(UserTable.email, email)).execute();
+    const users = await db.select().from(UserTable).where(eq(UserTable.email, email)).execute();
 
-    if (users.length === 0) {
-        res.status(404).json({ message: `User with email ${email} not found` })
+    // if account does not exist, first sign up
+    if(users.length === 0) {
+        const newUser = {
+            email: email,
+            verified: false,
+            nickname: "",
+            createdAt: Date.now(),
+            credits: 0,
+            campusId: null,
+        }
+        await db.insert(UserTable).values(newUser)
+        res.status(200).json({ newUser})
+        return;
     }
 
     res.status(200).json(users[0])

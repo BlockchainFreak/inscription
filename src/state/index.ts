@@ -2,14 +2,12 @@ import { atom } from 'recoil'
 import { Course } from '@/types'
 import { getStaticCourses } from '@/data'
 
-const courses = getStaticCourses()
-
-//Array<Course[]>(3).fill(getItems(5))
+// const courses = getStaticCourses()
 export const playgroundState = atom({
     key: 'playgroundState',
     default: {
         currentActiveBucket: null as null | number,
-        buckets: [courses.slice(0,5), courses.slice(10, 14)]
+        buckets: [[],[]] as Course[][],
     }
 })
 

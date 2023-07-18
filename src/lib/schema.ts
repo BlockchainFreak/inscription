@@ -1,34 +1,30 @@
-import { int, mysqlEnum, mysqlTable, serial, uniqueIndex, varchar } from 'drizzle-orm/mysql-core';
+import { int, mysqlEnum, mysqlTable, serial, uniqueIndex, varchar, boolean, bigint } from 'drizzle-orm/mysql-core';
 import { InferModel } from 'drizzle-orm';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
 export const UserTable = mysqlTable("user", {
-    id: serial("id").primaryKey(),
-    campusId: varchar("campusId", { length: 10 }).notNull().unique(),
-    email: varchar("email", { length: 100 }).notNull().unique(),
-    name: varchar("name", { length: 100 }),
-    nickname: varchar("nickname", { length: 100 }).notNull(),
-    passHash: varchar("passHash", { length: 100 }).notNull(),
+    email: varchar("email", { length: 100 }).primaryKey(),
+    campusId: varchar("campusId", { length: 20 }),
+    verified: boolean("verified").notNull().default(false),
+    nickname: varchar("nickname", { length: 100 }),
+    createdAt: bigint("createdAt", { mode: 'number' }).notNull(),
     credits: int("credits").notNull().default(0),
-    activeSession: varchar("activeSession", { length: 200 }),
 })
 
 export const verificationCodeTable = mysqlTable("verificationCode", {
-    email: varchar("email", { length: 100 }).primaryKey(),
-    lastUpdate: int("lastUpdate").notNull(),
+    campusId: varchar("campusId", { length: 100 }).primaryKey(),
+    email: varchar("email", { length: 100 }).notNull(),
+    lastUpdate: bigint("lastUpdate", { mode: "number" }).notNull(),
     code: varchar("code", { length: 10 }).notNull(),
 })
 
-export const UserSessionTable = mysqlTable("userSession", {
-    sessionId: varchar("sessionId", { length: 500 }).primaryKey(),
-    userId: int("userId").notNull(),
-});
+export const insertUserSchema = createInsertSchema(UserTable);
+export const selectUserSchema = createSelectSchema(UserTable);
 
+export const verificationCodeSchema = createInsertSchema(verificationCodeTable);
 
 export type User = InferModel<typeof UserTable>;
 export type NewUser = InferModel<typeof UserTable, 'insert'>; 
 
 export type validationCode = InferModel<typeof verificationCodeTable>;
 export type NewvalidationCode = InferModel<typeof verificationCodeTable, 'insert'>; 
-
-export type UserSession = InferModel<typeof UserSessionTable>;
-export type NewUserSession = InferModel<typeof UserSessionTable, 'insert'>;

@@ -68,6 +68,9 @@ dependencies:
   dayjs:
     specifier: ^1.11.9
     version: 1.11.9
+  drizzle-zod:
+    specifier: ^0.4.4
+    version: 0.4.4(drizzle-orm@0.27.2)(zod@3.21.4)
   eslint:
     specifier: 8.44.0
     version: 8.44.0
@@ -1644,7 +1647,6 @@ packages:
   /@planetscale/database@1.8.0:
     resolution: {integrity: sha512-+zk04eXRiaJGaRnJZkCxXbBtBvQDQJXCoxqlXhLY3HzAovXfsBnh6DjXRujPRQQ7GKtT8/tOlyvZ9h6ReM+GLQ==}
     engines: {node: '>=16'}
-    dev: true
 
   /@radix-ui/number@1.0.0:
     resolution: {integrity: sha512-Ofwh/1HX69ZfJRiRBMTy7rgjAzHmwe4kW9C9Y99HTRUcYLUuVT0KESFj15rPjRgKJs20GPq8Bm5aEDJ8DuA3vA==}
@@ -2969,7 +2971,16 @@ packages:
         optional: true
     dependencies:
       '@planetscale/database': 1.8.0
-    dev: true
+
+  /drizzle-zod@0.4.4(drizzle-orm@0.27.2)(zod@3.21.4):
+    resolution: {integrity: sha512-XNn0mjQ306Hvg+CuyKV98wnsWBWeTqv+kgE/N79Zj0EdCvjD2kaoN5sFDGFkMVqPQuP7IB1IPs0lEcOij1RvBA==}
+    peerDependencies:
+      drizzle-orm: '>=0.23.13'
+      zod: '*'
+    dependencies:
+      drizzle-orm: 0.27.2(@planetscale/database@1.8.0)
+      zod: 3.21.4
+    dev: false
 
   /duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}

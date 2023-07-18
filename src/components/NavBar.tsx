@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Transition, Box, Button, useMantineTheme } from '@mantine/core';
-import { IconBook, IconChevronsLeft, IconMessageChatbot, IconHome, IconMenu2, IconColumns, IconBrandCodesandbox } from "@tabler/icons-react";
+import { IconBook, IconChevronsLeft, IconMessageChatbot, IconHome, IconMenu2, IconColumns, IconBrandCodesandbox, IconDoorExit } from "@tabler/icons-react";
 import { useClickOutside } from '@mantine/hooks';
 import { useRouter, usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const data = [
     { link: '/playground', label: 'Playground', Icon: IconBrandCodesandbox },
-    { link: '/market', label: 'Market', Icon: IconColumns },
+    // { link: '/market', label: 'Market', Icon: IconColumns },
 ];
 
 export default function Navbar() {
@@ -36,6 +37,13 @@ export default function Navbar() {
                     {(styles) => <Box style={{ ...styles, backgroundColor: theme.colors.gray[8] }} className="h-screen w-80 z-50">
                         <div className="flex flex-col pt-16 h-full">
                             {Tabs}
+                            <div className="flex flex-col grow" />
+                            <div className="mb-4 ml-32">
+                                <Button onClick={() => signOut()}>
+                                    <IconDoorExit />
+                                    Sign Out
+                                </Button>
+                            </div>
                         </div>
                     </Box>}
                 </Transition>

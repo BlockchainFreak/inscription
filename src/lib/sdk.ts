@@ -1,4 +1,5 @@
 import { Zodios, makeErrors } from "@zodios/core";
+import { selectUserSchema } from "./schema";
 import { z } from "zod";
 
 const defaultErrors = makeErrors([{
@@ -8,7 +9,7 @@ const defaultErrors = makeErrors([{
     })
 }])
 
-export const authClient = new Zodios("/api", [
+export const apiClient = new Zodios("/api", [
     {
         method: "post",
         path: "/auth/requestCode",
@@ -19,35 +20,17 @@ export const authClient = new Zodios("/api", [
                 name: "email",
                 type: "Body",
                 schema: z.object({
-                    name: z.string(),
-                    email: z.string().email(),
-                })
-            }
-        ],
-        response: z.boolean(),
-        error: defaultErrors,
-    },
-    {
-        method: "get",
-        path: "/auth/getUserBySessionId",
-        alias: "getUserBySessionId",
-        description: "Get a user by their session id",
-        parameters: [
-            {
-                name: "sessionId",
-                type: "Query",
-                schema: z.object({
-                    sessionId: z.string(),
+                    username: z.string(),
+                    email: z.string(),
+                    campusId: z.string().length(8, "Must be exactly 8 characters long"),
                 })
             }
         ],
         response: z.object({
-            campusId: z.string(),
-            email: z.string(),
-            name: z.string(),
-            nickname: z.string(),
-            credits: z.number(),
+            success: z.boolean(),
+            message: z.string(),
         }),
+        error: defaultErrors,
     },
     {
         method: "get",
@@ -58,18 +41,10 @@ export const authClient = new Zodios("/api", [
             {
                 name: "email",
                 type: "Query",
-                schema: z.object({
-                    email: z.string().email(),
-                })
+                schema: z.string().email(),
             }
         ],
-        response: z.object({
-            campusId: z.string(),
-            email: z.string(),
-            name: z.string(),
-            nickname: z.string(),
-            credits: z.number(),
-        }),
+        response: selectUserSchema,
         error: defaultErrors,
     },
     {
@@ -91,7 +66,10 @@ export const authClient = new Zodios("/api", [
                 })
             },
         ],
-        response: z.boolean(),
+        response: z.object({
+            success: z.boolean(),
+            message: z.string(),
+        }),
         error: defaultErrors,
-    }
+    },
 ])
