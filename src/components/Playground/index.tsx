@@ -170,12 +170,13 @@ export default function Playground() {
           </div>}
         </div>
       </div>
-        <Flex direction="row-reverse" className="mt-4">
-          <Button onClick={handleProcess}>
-            <IconCpu size={20} className='mr-2' />
-            Process
-          </Button>
-        </Flex>
+      <p><strong>Last Updated: </strong>on 2 Dec 2023 for Spring 2024</p>
+      <Flex direction="row-reverse" className="mt-4">
+        <Button onClick={handleProcess}>
+          <IconCpu size={20} className='mr-2' />
+          Process
+        </Button>
+      </Flex>
     </div>
   );
 }
