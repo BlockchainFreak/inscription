@@ -1,14 +1,53 @@
 import { Course, TimeRange, DaySchedule, WeekSchedule } from "@/types"
 export const dayMap = { M: 0, T: 1, W: 2, R: 3, F: 4, S: 5, U: 6 } as Record<string, number>
 
+// export const parseTime = (time: string) => {
+//     // format: time = "9:30 AM" or "4:30p"
+//     const hours = time.split(":")[0]
+//     const minutes = time.split(":")[1].slice(0, 2)
+//     const ampm = time.slice(-2)
+//     const hourlyOffset = 12 * 60 * (ampm === "PM" ? 1 : 0)
+//     const case12 = hours === "12" ? 12 * 60 : 0
+//     return parseInt(hours) * 60 + parseInt(minutes) + hourlyOffset - case12
+// }
+
 export const parseTime = (time: string) => {
-    const hours = time.split(":")[0]
-    const minutes = time.split(":")[1].slice(0, 2)
-    const ampm = time.slice(-2)
-    const hourlyOffset = 12 * 60 * (ampm === "PM" ? 1 : 0)
-    const case12 = hours === "12" ? 12 * 60 : 0
-    return parseInt(hours) * 60 + parseInt(minutes) + hourlyOffset - case12
-}
+    // Regular expression to match the time format
+    // Group 1: Hours (1-12)
+    // Group 2: Minutes (00-59)
+    // Group 3: Optional space
+    // Group 4: AM/PM indicator (case-insensitive, optional)
+    const timeRegex = /^(\d{1,2}):(\d{2})\s*([APap][Mm]?)?$/;
+    const match = time.match(timeRegex);
+
+    if (!match) {
+        throw new Error('Invalid time format');
+    }
+
+    let [_, hours, minutes, ampm] = match;
+
+    // Normalize AM/PM indicator to uppercase and ensure it's either 'AM' or 'PM'
+    ampm = (ampm || '').toLowerCase();
+
+    // Convert hours and minutes to numbers
+    let hourNumber = parseInt(hours, 10);
+    let minuteNumber = parseInt(minutes, 10);
+
+    // Validate hours and minutes
+    if (hourNumber < 1 || hourNumber > 12 || minuteNumber < 0 || minuteNumber >= 60) {
+        throw new Error('Invalid time value');
+    }
+
+    // Adjust for 12-hour time format
+    if (ampm.toLowerCase().includes("p") && hourNumber !== 12) {
+        hourNumber += 12;
+    } else if (ampm.toLowerCase().includes("a") && hourNumber === 12) {
+        hourNumber = 0;
+    }
+
+    // Convert to total minutes
+    return hourNumber * 60 + minuteNumber;
+};
 
 const initWeek = () => [[], [], [], [], [], [], []] as WeekSchedule
 
@@ -55,12 +94,12 @@ const isWeekClashing = (week: WeekSchedule) => {
 }
 
 const accumulateByBacktracking = (bucketIdx: number, buckets: Course[][], currentCourseStack: Course[], clashFreeWeeks: Course[][]) => {
-    
-    if(buckets[bucketIdx] && buckets[bucketIdx].length === 0) {
+
+    if (buckets[bucketIdx] && buckets[bucketIdx].length === 0) {
         accumulateByBacktracking(bucketIdx + 1, buckets, currentCourseStack, clashFreeWeeks)
         return
     }
-    
+
     if (bucketIdx >= buckets.length) {
         const currentWeek = createWeek(currentCourseStack)
         const isClashing = isWeekClashing(currentWeek)
